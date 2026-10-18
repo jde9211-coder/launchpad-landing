@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launchpad — 곧 출시됩니다</title>
+  <meta name="description" content="아이디어를 하루 만에 출시하세요. 사전 등록하고 가장 먼저 만나보세요." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --panel: #141821;
+      --line: #232938;
+      --text: #eef1f7;
+      --muted: #9aa3b5;
+      --accent: #7c5cff;
+      --accent-2: #22d3ee;
+      --ok: #34d399;
+      --err: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans KR", system-ui, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .glow {
+      position: fixed; inset: -20% -10% auto; height: 70vh; z-index: -1;
+      background: radial-gradient(closest-side at 30% 40%, rgba(124,92,255,.35), transparent),
+                  radial-gradient(closest-side at 70% 30%, rgba(34,211,238,.22), transparent);
+      filter: blur(40px);
+    }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; }
+    .logo { font-weight: 900; font-size: 20px; letter-spacing: -.02em; }
+    .logo span { color: var(--accent); }
+    nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+    nav a:hover { color: var(--text); }
+
+    header.hero { text-align: center; padding: 72px 0 56px; }
+    .badge {
+      display: inline-block; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
+      font-size: 13px; color: var(--muted); background: rgba(20,24,33,.6); margin-bottom: 24px;
+    }
+    h1 { font-size: clamp(36px, 7vw, 68px); font-weight: 900; letter-spacing: -.03em; line-height: 1.15; }
+    h1 .grad {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .sub { color: var(--muted); font-size: clamp(16px, 2.2vw, 19px); max-width: 560px; margin: 20px auto 36px; }
+
+    form { display: flex; gap: 10px; max-width: 460px; margin: 0 auto; flex-wrap: wrap; }
+    input[type=email] {
+      flex: 1 1 240px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line);
+      background: var(--panel); color: var(--text); font-size: 16px; font-family: inherit;
+    }
+    input[type=email]:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    button {
+      flex: 0 0 auto; padding: 14px 22px; border: 0; border-radius: 12px; cursor: pointer;
+      background: linear-gradient(90deg, var(--accent), #9b7bff); color: #fff; font-weight: 700; font-size: 16px;
+      font-family: inherit; transition: transform .1s, opacity .2s;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: .6; cursor: wait; transform: none; }
+    .msg { min-height: 24px; margin-top: 14px; font-size: 14px; }
+    .msg.ok { color: var(--ok); } .msg.err { color: var(--err); }
+    .count { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .count b { color: var(--text); }
+
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 48px 0 80px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+    .icon {
+      width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font-size: 20px;
+      background: rgba(124,92,255,.15); margin-bottom: 14px;
+    }
+    .card h3 { font-size: 18px; margin-bottom: 6px; }
+    .card p { color: var(--muted); font-size: 15px; }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 13px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <nav>
+      <div class="logo">Launch<span>pad</span></div>
+      <a href="#features">기능 보기</a>
+    </nav>
+
+    <header class="hero">
+      <div class="badge">🚀 2026년 겨울 출시 예정</div>
+      <h1>아이디어를<br /><span class="grad">하루 만에 출시하세요</span></h1>
+      <p class="sub">기획부터 배포까지, 복잡한 설정 없이 한 곳에서. 사전 등록하고 출시 소식을 가장 먼저 받아보세요.</p>
+
+      <form id="waitlist" novalidate>
+        <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="이메일 주소" />
+        <button id="submit" type="submit">사전 등록</button>
+      </form>
+      <p id="msg" class="msg" role="status" aria-live="polite"></p>
+      <p class="count" id="count" hidden>지금까지 <b id="count-num">0</b>명이 등록했어요</p>
+    </header>
+
+    <section id="features" class="features">
+      <div class="card">
+        <div class="icon">⚡</div>
+        <h3>빠른 시작</h3>
+        <p>템플릿을 고르고 몇 번의 클릭만으로 바로 서비스를 띄울 수 있어요.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🗄️</div>
+        <h3>내장 데이터베이스</h3>
+        <p>Supabase 기반의 안전한 데이터 저장소가 기본으로 제공됩니다.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🌍</div>
+        <h3>글로벌 배포</h3>
+        <p>Vercel 엣지 네트워크로 전 세계 어디서나 빠르게 열립니다.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>© 2026 Launchpad. All rights reserved.</footer>
+
+  <script>
+    // Supabase publishable key: safe to expose; the waitlist table only allows inserts (RLS).
+    const SUPABASE_URL = "https://nrlrpanqzbdcbgjyqjua.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_A7D7rGPcA6UzUEhCgaXaQA_jQ_BneG_";
+    const headers = { apikey: SUPABASE_KEY, "Content-Type": "application/json" };
+
+    const form = document.getElementById("waitlist");
+    const emailEl = document.getElementById("email");
+    const btn = document.getElementById("submit");
+    const msg = document.getElementById("msg");
+
+    function show(text, kind) { msg.textContent = text; msg.className = "msg " + kind; }
+
+    async function loadCount() {
+      try {
+        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/waitlist_count", { method: "POST", headers, body: "{}" });
+        if (!res.ok) return;
+        const n = await res.json();
+        document.getElementById("count-num").textContent = Number(n).toLocaleString("ko-KR");
+        document.getElementById("count").hidden = false;
+      } catch (_) {}
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = emailEl.value.trim().toLowerCase();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return show("올바른 이메일 주소를 입력해 주세요.", "err");
+
+      btn.disabled = true; btn.textContent = "등록 중…";
+      try {
+        const res = await fetch(SUPABASE_URL + "/rest/v1/waitlist", {
+          method: "POST",
+          headers: { ...headers, Prefer: "return=minimal" },
+          body: JSON.stringify({ email }),
+        });
+        if (res.ok) {
+          show("🎉 등록 완료! 출시 소식을 가장 먼저 알려드릴게요.", "ok");
+          form.reset();
+          loadCount();
+        } else if (res.status === 409) {
+          show("이미 등록된 이메일이에요. 감사합니다!", "ok");
+        } else {
+          show("등록에 실패했어요. 잠시 후 다시 시도해 주세요.", "err");
+        }
+      } catch (_) {
+        show("네트워크 오류가 발생했어요.", "err");
+      } finally {
+        btn.disabled = false; btn.textContent = "사전 등록";
+      }
+    });
+
+    loadCount();
+  </script>
+</body>
+</html>
